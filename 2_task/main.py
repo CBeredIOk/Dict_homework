@@ -1,5 +1,6 @@
 """
 Вы очень любите считать. Не важно что, где и когда, главное посчитать все, что можно.
+
 Вам на вход приходит текст. Ваша программа должна посчитать количество слов в этом тексте и вывести на печать 10
 самых частых слов. Если слова встречаются одинаковое количество раз, то они должны быть отсортированы по алфавиту.
 
@@ -9,37 +10,32 @@
 - регистр игнорируется
 - слова короче 3-х символов игнорируются.
 
-
 Советы:
-1) почитать про регулярные выражения в питоне, для визуального представления можно пользоваться сайтом
-    https://regex101.com/
+1) почитать про регулярные выражения в питоне, для визуального представления сайт: https://regex101.com/
+
 2) вспомнить про sorted, почитать про lambda функции и сортировку с их помощью
 
 для тестирования запустить pytest 2_task/test.py
 """
 
-from collections import Counter
 import re
+from collections import Counter
 
 
-def top_10_most_common_words(text: str) -> dict[str, int]:
+def top_ten_most_common_words(text: str) -> dict[str, int]:
     """Функция возвращает топ 10 слов, встречающихся в тексте.
 
     Args:
-        text: исходный текст
-
+        (text: str): исходный текст
     Returns:
-        словарь типа {слово: количество вхождений}
+        dict[str, int]: Словарь, содержащий топ 10 слов в формате {слово: количество вхождений}
     """
-
     text = text.lower()
 
     pattern = r'\b\w{3,}\b'
     words = re.findall(pattern, text)
 
     words_counter = dict(Counter(words))
-    sorted_words_counter = sorted(words_counter.items(), key=lambda x: (-x[1], x[0]))
+    sorted_words_counter = sorted(words_counter.items(), key=lambda word: (-word[1], word[0]))
 
-    most_common = dict(sorted_words_counter[:10])
-
-    return most_common
+    return dict(sorted_words_counter[:10])

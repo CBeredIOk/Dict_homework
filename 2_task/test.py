@@ -1,6 +1,6 @@
 import pytest
 
-from main import top_10_most_common_words
+from main import top_ten_most_common_words
 
 
 TEXT_1 = """
@@ -135,4 +135,4 @@ MOST_COMMON_3 = {'царица': 4, 'была': 3, 'говорит': 3, 'каб�
     ]
 )
 def test_most_common_words(text, result):
-    assert top_10_most_common_words(text) == result
+    assert top_ten_most_common_words(text) == result
