@@ -35,7 +35,4 @@ def top_ten_most_common_words(text: str) -> dict[str, int]:
     pattern = r'\b\w{3,}\b'
     words = re.findall(pattern, text)
 
-    words_counter = dict(Counter(words))
-    sorted_words_counter = sorted(words_counter.items(), key=lambda word: (-word[1], word[0]))
-
-    return dict(sorted_words_counter[:10])
+    return dict(Counter(sorted(words)).most_common(10))

@@ -21,10 +21,19 @@
 
 import os
 from decimal import Decimal
+from types import MappingProxyType
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SPLIT_SYMBOL = '\n'
+TEMPLATE = MappingProxyType({
+    'id': int,
+    'name': str,
+    'last_name': str,
+    'age': int,
+    'salary': Decimal,
+    'position': str
+})
 
 
 def read_file(path: str) -> str:
@@ -45,27 +54,12 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
     employees_info = get_employees_info()
     parsed_employees_info = []
 
-    keys_to_keep = ['id', 'name', 'last_name', 'age', 'salary', 'position']
-    keys_to_int = ['id', 'age']
-    keys_to_decimal = ['salary']
-
     for employee in employees_info:
         employee_features = employee.split()
         filtered_dict = {}
-
-        for i in range(0, len(employee_features), 2):
-            key, value = employee_features[i], employee_features[i + 1]
-            if key in keys_to_keep:
-                try:
-                    if key in keys_to_int:
-                        filtered_dict[key] = int(value)
-                    elif key in keys_to_decimal:
-                        filtered_dict[key] = Decimal(value)
-                    else:
-                        filtered_dict[key] = value
-                except ValueError:
-                    print(f"Ошибка преобразования '{value}' ключа '{key}' в нужный тип")
-
+        for index, key in enumerate(employee_features):
+            if key in TEMPLATE:
+                filtered_dict[key] = TEMPLATE[key](employee_features[index + 1])
         parsed_employees_info.append(filtered_dict)
 
     return parsed_employees_info
